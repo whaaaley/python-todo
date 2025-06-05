@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Prevent horizontal scroll on text selection */
+html, body {
+  @apply overflow-x-hidden;
+  overscroll-behavior-x: none;
+}
+
+/* Base body styles for all apps */
+body {
+  @apply text-base text-white bg-black;
+  @apply min-h-screen min-w-[425px];
+}
+
+#app {
+  @apply grid min-h-screen;
+}
+
+button {
+  @apply cursor-pointer;
+}

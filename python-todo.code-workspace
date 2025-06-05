@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "client",
+    },
+    {
+      "path": "server",
+    },
+    {
+      "path": ".",
+    },
+  ],
+  "settings": {
+    "cSpell.words": [
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "dbaeumer.vscode-eslint",
+      "Vue.volar"
+    ]
+  }
+}

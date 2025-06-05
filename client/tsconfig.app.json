@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ES2020", "ScriptHost", "WebWorker"],
+    "skipLibCheck": true,
+
+    /* JavaScript */
+    "allowJs": false,
+    "checkJs": false,
+
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+
+    /* Linting */
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Project paths */
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"],
+      "$/*": ["../*"]
+    }
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/vite-env.d.ts",
+    "src/jsx.d.ts"
+  ],
+  "exclude": [
+    "**/_trash/**/*"
+  ]
+}

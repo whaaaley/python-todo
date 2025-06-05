@@ -1,0 +1,42 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "rm -rf dist && mkdir -p dist && npm run build",
+    "preview": "env $(cat .env) npm run build",
+    "generate-types": "openapi-typescript http://127.0.0.1:8000/openapi.json -o src/types/api.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@remixicon/vue": "^4.6.0",
+    "@tanstack/vue-query": "^5.80.5",
+    "class-variance-authority": "^0.7.1",
+    "openapi-fetch": "^0.14.0",
+    "vue": "^3.5.16",
+    "vue-router": "^4.5.1",
+    "zod": "^3.25.51"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@stylistic/eslint-plugin": "^4.4.1",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitejs/plugin-vue-jsx": "^4.2.0",
+    "eslint": "^9.28.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-tailwindcss": "^3.18.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "eslint-plugin-vue": "^10.1.0",
+    "globals": "^16.2.0",
+    "neostandard": "^0.12.1",
+    "openapi-typescript": "^7.8.0",
+    "postcss": "^8.5.4",
+    "rollup-plugin-license": "^3.6.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1"
+  }
+}
