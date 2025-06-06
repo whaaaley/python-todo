@@ -2,13 +2,19 @@ from datetime import datetime
 from typing import List
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from models import TodoCreate, TodoUpdate, Todo, DeleteResponse, HealthResponse, MessageResponse
 
 app = FastAPI(title='Python Todo API', version='0.1.0')
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=['http://localhost:5001', 'http://127.0.0.1:5001'],
+  allow_origins=[
+    'http://localhost:5001',
+    'http://127.0.0.1:5001',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+  ],
   allow_credentials=True,
   allow_methods=['*'],
   allow_headers=['*'],
@@ -16,7 +22,7 @@ app.add_middleware(
 
 todos = []
 
-@app.get('/', response_model=MessageResponse)
+@app.get('/hello', response_model=MessageResponse)
 async def root():
   return {'message': 'Hello from Python Todo API!'}
 
@@ -67,6 +73,8 @@ async def list_todos() -> List[Todo]:
 @app.get('/health', response_model=HealthResponse)
 async def health_check():
   return {'status': 'healthy'}
+
+app.mount('/', StaticFiles(directory='dist', html=True), name='static')
 
 def main():
   print('Hello from python-todo!')

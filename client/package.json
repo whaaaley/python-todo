@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && mkdir -p dist && npm run build",
+    "build": "rm -rf dist && mkdir -p dist && vite build",
     "preview": "env $(cat .env) npm run build",
     "generate-types": "openapi-typescript http://127.0.0.1:8000/openapi.json -o src/types/api.ts"
   },
