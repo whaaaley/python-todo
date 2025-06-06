@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from typing import List
 from fastapi import FastAPI, HTTPException
@@ -7,14 +8,22 @@ from models import TodoCreate, TodoUpdate, Todo, DeleteResponse, HealthResponse,
 
 app = FastAPI(title='Python Todo API', version='0.1.0')
 
+def get_cors_origins():
+  if os.getenv('FLY_APP_NAME'):
+    return [
+      'https://python-todo.fly.dev'
+    ]
+  else:
+    return [
+      'http://localhost:5001',
+      'http://127.0.0.1:5001',
+      'http://localhost:8000',
+      'http://127.0.0.1:8000',
+    ]
+
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=[
-    'http://localhost:5001',
-    'http://127.0.0.1:5001',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-  ],
+  allow_origins=get_cors_origins(),
   allow_credentials=True,
   allow_methods=['*'],
   allow_headers=['*'],
