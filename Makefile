@@ -7,4 +7,4 @@ install:
 	cd server && uv sync
 
 test:
-	cd server && uv run pytest
+	cd server && uv run pytest test_main.py -v -s

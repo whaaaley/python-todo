@@ -47,7 +47,7 @@ const TodoItem = defineComponent({
     return () => (
       <div class='flex gap-2'>
         <button onClick={() => { mutate() }}>
-          {props.completed ? <RiCheckboxBlankLine/> : <RiCheckboxLine/>}
+          {props.completed ? <RiCheckboxLine/> : <RiCheckboxBlankLine/>}
         </button>
         <div>{props.id}</div>
         <div>{props.tile}</div>

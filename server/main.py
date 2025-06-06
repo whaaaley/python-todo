@@ -8,10 +8,10 @@ app = FastAPI(title='Python Todo API', version='0.1.0')
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["http://localhost:5001", "http://127.0.0.1:5001"],
+  allow_origins=['http://localhost:5001', 'http://127.0.0.1:5001'],
   allow_credentials=True,
-  allow_methods=["*"],
-  allow_headers=["*"],
+  allow_methods=['*'],
+  allow_headers=['*'],
 )
 
 todos = []
@@ -43,7 +43,7 @@ async def update_todo(todo_id: int, todo_data: TodoUpdate) -> Todo:
       break
 
   if not found_item:
-    raise HTTPException(status_code=404, detail="Todo item not found")
+    raise HTTPException(status_code=404, detail='Todo item not found')
 
   # Get only the fields that were actually set in the request
   updates = todo_data.model_dump(exclude_unset=True)
@@ -57,9 +57,7 @@ async def update_todo(todo_id: int, todo_data: TodoUpdate) -> Todo:
 @app.delete('/todo/delete/{todo_id}', response_model=DeleteResponse)
 async def delete_todo(todo_id: int) -> DeleteResponse:
   global todos
-
   todos = [todo for todo in todos if todo.id != todo_id]
-
   return {'message': 'Todo deleted successfully'}
 
 @app.get('/todo/list', response_model=List[Todo])
