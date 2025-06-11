@@ -3,7 +3,7 @@
 let
   unstable = import (fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
-    sha256 = "sha256:1r4gklhwylxar9y2dxyikkzf3hl615dj1jzfy851p6kc33qm1ilm";
+    sha256 = "sha256:0dcslr2lwfaclfl4pmbwb3yw27bnvwlqiif394d3d66vyd163dvy";
   }) {
     inherit (pkgs) system;
     config = pkgs.config;

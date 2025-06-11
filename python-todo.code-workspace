@@ -12,8 +12,15 @@
   ],
   "settings": {
     "cSpell.words": [
+      "fastapi",
       "flyctl",
-      "superfly"
+      "polyfactory",
+      "pydantic",
+      "pylint",
+      "pytest",
+      "supabase",
+      "superfly",
+      "uvicorn"
     ]
   },
   "extensions": {

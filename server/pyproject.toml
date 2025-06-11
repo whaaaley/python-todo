@@ -10,5 +10,10 @@ dependencies = [
     "pydantic>=2.11.5",
     "pytest>=8.4.0",
     "supabase>=2.15.2",
+    "tortoise-orm>=0.25.1",
     "uvicorn>=0.34.3",
 ]
+
+[tool.pylint.format]
+indent-after-paren = 2
+indent-string = "  "
