@@ -1,7 +1,7 @@
-from features.todo.todo_schemas import *
 from fastapi import APIRouter, HTTPException
 
 import models
+from features.todo.todo_schemas import *
 
 router = APIRouter()
 
@@ -23,9 +23,7 @@ async def create_todo(todo_data: TodoCreate) -> TodoResponse:
 
 
 @router.put('/update/{todo_id}', response_model=TodoResponse)
-async def update_todo(
-  todo_id: int, todo_data: TodoUpdate
-) -> TodoResponse:
+async def update_todo(todo_id: int, todo_data: TodoUpdate) -> TodoResponse:
   """Update an existing todo item."""
 
   todo_obj = await models.Todo.get_or_none(id=todo_id)

@@ -7,21 +7,13 @@ create, read, update, and delete operations using FastAPI TestClient.
 
 import asyncio
 import os
-import sys
 from typing import Any
-
-# Add the server directory to Python path so we can import models and main
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from fastapi.testclient import TestClient
 from polyfactory.factories.pydantic_factory import ModelFactory
 from tortoise import Tortoise
 
-# Import from the current directory
-import sys
-import os
-sys.path.append(os.path.dirname(__file__))
-from todo_schemas import TodoCreate, TodoUpdate
+from features.todo.todo_schemas import TodoCreate, TodoUpdate
 
 os.environ['TESTING'] = '1'
 

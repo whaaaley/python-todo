@@ -6,11 +6,7 @@ This module contains tests for the health check endpoint.
 
 import asyncio
 import os
-import sys
 from typing import Any
-
-# Add the server directory to Python path so we can import models and main
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from fastapi.testclient import TestClient
 from tortoise import Tortoise
