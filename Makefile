@@ -7,7 +7,7 @@ install:
 	cd server && uv sync
 
 test:
-	cd server && uv run pytest test_main.py -v -s
+	cd server && PYTHONPATH=. uv run pytest -v -s
 
 db-init:
 	cd server && uv run aerich init -t config.TORTOISE_ORM

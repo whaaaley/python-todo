@@ -17,7 +17,7 @@ async def hello():
   return {'message': 'Hello from Python Todo API!'}
 
 
-@router.get('/health', response_model=models.HealthResponse)
+@router.get('/status', response_model=models.HealthResponse)
 async def health_check():
   """Health check endpoint."""
   return {'status': 'healthy'}
