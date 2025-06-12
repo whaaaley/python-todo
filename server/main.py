@@ -1,25 +1,45 @@
+"""
+FastAPI Todo application with Tortoise ORM.
+
+This module contains a simple Todo API with CRUD operations using FastAPI
+and Tortoise ORM. Provides endpoints for creating, reading, updating, and deleting Todo items.
+"""
+
 import os
-from datetime import datetime
-from typing import List
-from fastapi import FastAPI, HTTPException
+
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from models import TodoCreate, TodoUpdate, Todo, DeleteResponse, HealthResponse, MessageResponse
+from tortoise.contrib.fastapi import register_tortoise
+
+from config import TORTOISE_ORM
+from health import router as health_router
+from todo import router as todo_router
 
 app = FastAPI(title='Python Todo API', version='0.1.0')
 
+if not os.getenv('TESTING'):
+  register_tortoise(
+    app,
+    config=TORTOISE_ORM,
+    generate_schemas=False,
+    add_exception_handlers=True,
+  )
+
+
 def get_cors_origins():
+  """Get CORS origins based on environment (Fly.io or local)."""
+
   if os.getenv('FLY_APP_NAME'):
-    return [
-      'https://python-todo.fly.dev'
-    ]
-  else:
-    return [
-      'http://localhost:5001',
-      'http://127.0.0.1:5001',
-      'http://localhost:8000',
-      'http://127.0.0.1:8000',
-    ]
+    return ['https://python-todo.fly.dev']
+
+  return [
+    'http://localhost:5001',
+    'http://127.0.0.1:5001',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+  ]
+
 
 app.add_middleware(
   CORSMiddleware,
@@ -29,64 +49,7 @@ app.add_middleware(
   allow_headers=['*'],
 )
 
-todos = []
-
-@app.get('/hello', response_model=MessageResponse)
-async def root():
-  return {'message': 'Hello from Python Todo API!'}
-
-@app.post('/todo/create', response_model=Todo)
-async def create_todo(todo_data: TodoCreate) -> Todo:
-  todo = Todo(
-    id=len(todos) + 1,
-    title=todo_data.title,
-    completed=todo_data.completed,
-    created_at=datetime.now()
-  )
-
-  todos.append(todo)
-
-  return todo
-
-@app.put('/todo/update/{todo_id}', response_model=Todo)
-async def update_todo(todo_id: int, todo_data: TodoUpdate) -> Todo:
-  found_item = None
-
-  for todo in todos:
-    if todo.id == todo_id:
-      found_item = todo
-      break
-
-  if not found_item:
-    raise HTTPException(status_code=404, detail='Todo item not found')
-
-  # Get only the fields that were actually set in the request
-  updates = todo_data.model_dump(exclude_unset=True)
-
-  # Update the Pydantic object directly
-  for field, value in updates.items():
-    setattr(found_item, field, value)
-
-  return found_item
-
-@app.delete('/todo/delete/{todo_id}', response_model=DeleteResponse)
-async def delete_todo(todo_id: int) -> DeleteResponse:
-  global todos
-  todos = [todo for todo in todos if todo.id != todo_id]
-  return {'message': 'Todo deleted successfully'}
-
-@app.get('/todo/list', response_model=List[Todo])
-async def list_todos() -> List[Todo]:
-  return todos
-
-@app.get('/health', response_model=HealthResponse)
-async def health_check():
-  return {'status': 'healthy'}
+app.include_router(health_router, prefix='/health')
+app.include_router(todo_router, prefix='/todo')
 
 app.mount('/', StaticFiles(directory='dist', html=True), name='static')
-
-def main():
-  print('Hello from python-todo!')
-
-if __name__ == '__main__':
-  main()

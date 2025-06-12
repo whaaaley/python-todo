@@ -1,0 +1,24 @@
+name: python_todo
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: python_todo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/python_todo
+
+volumes:
+  postgres_data:

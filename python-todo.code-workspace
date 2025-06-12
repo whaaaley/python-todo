@@ -11,13 +11,37 @@
     },
   ],
   "settings": {
+    "python.analysis.typeCheckingMode": "strict",
+    "[python]": {
+      "editor.defaultFormatter": "charliermarsh.ruff",
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.fixAll.ruff": "explicit",
+        "source.organizeImports.ruff": "explicit"
+      }
+    },
     "cSpell.words": [
+      "aerich",
+      "asyncio",
+      "asyncpg",
+      "bbenoist",
+      "bradlc",
+      "charliermarsh",
+      "dbaeumer",
+      "debugpy",
       "fastapi",
       "flyctl",
+      "gnumake",
+      "httpx",
+      "isort",
+      "mccabe",
+      "nixpkgs",
+      "pkgs",
       "polyfactory",
       "pydantic",
-      "pylint",
+      "pylance",
       "pytest",
+      "pyupgrade",
       "supabase",
       "superfly",
       "uvicorn"
@@ -25,9 +49,16 @@
   },
   "extensions": {
     "recommendations": [
-      "bradlc.vscode-tailwindcss",
       "dbaeumer.vscode-eslint",
-      "Vue.volar"
+      "charliermarsh.ruff",
+      "bbenoist.nix",
+      "vue.volar",
+      "bradlc.vscode-tailwindcss",
+      "ms-python.vscode-pylance",
+      "ms-python.python",
+      "ms-python.debugpy",
+      "streetsidesoftware.code-spell-checker",
+      "ms-vscode.vscode-typescript-next"
     ]
   }
 }

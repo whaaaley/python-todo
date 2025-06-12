@@ -4,22 +4,54 @@ Test suite for the Todo API.
 This module contains integration tests for all Todo API endpoints including
 create, read, update, and delete operations using FastAPI TestClient.
 """
+
+import asyncio
+import os
+from typing import Any
+
 from fastapi.testclient import TestClient
 from polyfactory.factories.pydantic_factory import ModelFactory
+from tortoise import Tortoise
+
 from models import TodoCreate, TodoUpdate
+
+os.environ['TESTING'] = '1'
+
+TEST_TORTOISE_ORM: dict[str, Any] = {
+  'connections': {'default': 'sqlite://:memory:'},
+  'apps': {'models': {'models': ['models'], 'default_connection': 'default'}},
+}
+
+
+class TestState:
+  """Container for test state."""
+
+  todo_id = 0
+
+
+test_state = TestState()
+
+
+class TodoCreateFactory(ModelFactory[TodoCreate]):
+  """Factory for generating TodoCreate test instances."""
+
+  __use_examples__ = True
+
+
+# Set up Tortoise before importing the app
+async def setup_tortoise():
+  """Initialize Tortoise ORM for testing."""
+  await Tortoise.init(config=TEST_TORTOISE_ORM)
+  await Tortoise.generate_schemas()
+
+
+asyncio.run(setup_tortoise())
+
+# Import app after setting up the test database
 from main import app
 
 client = TestClient(app)
 
-class TestState:
-  """Container for test state."""
-  todo_id = 0
-
-test_state = TestState()
-
-class TodoCreateFactory(ModelFactory[TodoCreate]):
-  """Factory for generating TodoCreate test instances."""
-  __use_examples__ = True
 
 def test_create_todo():
   """Test creating a new todo item."""
@@ -28,12 +60,16 @@ def test_create_todo():
   test_state.todo_id = response.json()['id']
   assert response.status_code == 200
 
+
 def test_update_todo():
   """Test updating an existing todo item."""
   update_data = TodoUpdate(title='Updated Title')
-  response = client.put(url=f'/todo/update/{test_state.todo_id}', json=update_data.model_dump())
+  response = client.put(
+    url=f'/todo/update/{test_state.todo_id}', json=update_data.model_dump()
+  )
   assert response.status_code == 200
   assert response.json()['title'] == 'Updated Title'
+
 
 # Test list before delete so we know that the todos exist
 def test_list_todos():
@@ -42,6 +78,7 @@ def test_list_todos():
   assert response.status_code == 200
   assert isinstance(response.json(), list)
   assert len(response.json()) == 1
+
 
 def test_delete_todo():
   """Test deleting an existing todo item."""

@@ -11,6 +11,7 @@ let
 in pkgs.mkShell {
   buildInputs = with pkgs; [
     unstable.deno
+    gnumake
     nodejs_22
     python312
     python312Packages.pip
@@ -21,6 +22,5 @@ in pkgs.mkShell {
 
   shellHook = ''
     echo "🚀 Starting development environment..."
-    export COMPOSE_PROJECT_NAME="pydo"
   '';
 }

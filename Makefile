@@ -1,4 +1,4 @@
-.PHONY: dev test install build run stop logs clean
+.PHONY: dev test install build run stop logs clean db-init db-migrate db-upgrade
 
 dev:
 	cd server && uv run uvicorn main:app --reload
@@ -8,6 +8,16 @@ install:
 
 test:
 	cd server && uv run pytest test_main.py -v -s
+
+db-init:
+	cd server && uv run aerich init -t config.TORTOISE_ORM
+	cd server && uv run aerich init-db
+
+db-migrate:
+	cd server && uv run aerich migrate --name $(name)
+
+db-upgrade:
+	cd server && uv run aerich upgrade
 
 build:
 	docker build -t python-todo .
@@ -20,3 +30,8 @@ stop:
 
 logs:
 	docker logs python-todo-container
+
+clean:
+	cd server && rm -rf migrations/
+	cd server && rm -f aerich.ini
+	docker system prune -f
