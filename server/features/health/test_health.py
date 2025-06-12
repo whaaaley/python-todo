@@ -4,10 +4,10 @@ Test suite for the Health API.
 This module contains tests for the health check endpoint.
 """
 
-import asyncio
 import os
 from typing import Any
 
+import pytest
 from fastapi.testclient import TestClient
 from tortoise import Tortoise
 
@@ -19,14 +19,14 @@ TEST_TORTOISE_ORM: dict[str, Any] = {
 }
 
 
-# Set up Tortoise before importing the app
-async def setup_tortoise():
-  """Initialize Tortoise ORM for testing."""
+@pytest.fixture(scope='module', autouse=True)
+async def setup_database():
+  """Set up and tear down the test database."""
   await Tortoise.init(config=TEST_TORTOISE_ORM)
   await Tortoise.generate_schemas()
+  yield
+  await Tortoise.close_connections()
 
-
-asyncio.run(setup_tortoise())
 
 # Import app after setting up the test database
 from main import app

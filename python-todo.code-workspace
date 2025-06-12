@@ -24,6 +24,7 @@
       "aerich",
       "asyncio",
       "asyncpg",
+      "autouse",
       "bbenoist",
       "bradlc",
       "charliermarsh",

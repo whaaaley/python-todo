@@ -5,10 +5,10 @@ This module contains integration tests for all Todo API endpoints including
 create, read, update, and delete operations using FastAPI TestClient.
 """
 
-import asyncio
 import os
 from typing import Any
 
+import pytest
 from fastapi.testclient import TestClient
 from polyfactory.factories.pydantic_factory import ModelFactory
 from tortoise import Tortoise
@@ -38,14 +38,14 @@ class TodoCreateFactory(ModelFactory[TodoCreate]):
   __use_examples__ = True
 
 
-# Set up Tortoise before importing the app
-async def setup_tortoise():
-  """Initialize Tortoise ORM for testing."""
+@pytest.fixture(scope='module', autouse=True)
+async def setup_database():
+  """Set up and tear down the test database."""
   await Tortoise.init(config=TEST_TORTOISE_ORM)
   await Tortoise.generate_schemas()
+  yield
+  await Tortoise.close_connections()
 
-
-asyncio.run(setup_tortoise())
 
 # Import app after setting up the test database
 from main import app
