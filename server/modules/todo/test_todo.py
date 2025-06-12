@@ -13,7 +13,7 @@ from fastapi.testclient import TestClient
 from polyfactory.factories.pydantic_factory import ModelFactory
 from tortoise import Tortoise
 
-from models import TodoCreate, TodoUpdate
+from .schemas import TodoCreate, TodoUpdate
 
 os.environ['TESTING'] = '1'
 
@@ -71,7 +71,6 @@ def test_update_todo():
   assert response.json()['title'] == 'Updated Title'
 
 
-# Test list before delete so we know that the todos exist
 def test_list_todos():
   """Test listing all todo items."""
   response = client.get(url='/todo/list')

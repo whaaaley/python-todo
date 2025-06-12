@@ -13,8 +13,8 @@ from fastapi.staticfiles import StaticFiles
 from tortoise.contrib.fastapi import register_tortoise
 
 from config import TORTOISE_ORM
-from health import router as health_router
-from todo import router as todo_router
+from modules.health.health import router as health_router
+from modules.todo.todo import router as todo_router
 
 app = FastAPI(title='Python Todo API', version='0.1.0')
 

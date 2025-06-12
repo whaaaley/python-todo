@@ -1,11 +1,9 @@
 """
-Tortoise ORM models and Pydantic schemas for the Todo API.
+Tortoise ORM models for the Todo API.
 
-This module contains Tortoise ORM models for database operations
-and Pydantic models for API requests and responses.
+This module contains Tortoise ORM models for database operations.
+Pydantic schemas are now located in their respective module schemas files.
 """
-
-from datetime import datetime
 
 from pydantic import BaseModel
 from tortoise import fields
@@ -23,50 +21,7 @@ class Todo(Model):
     table = 'todos'
 
 
-# Pydantic Models for API
-class TodoBase(BaseModel):
-  """Base model for Todo items with common fields."""
-
-  title: str
-  completed: bool = False
-
-
-# Input models for API requests
-class TodoCreate(TodoBase):
-  """Model for creating new Todo items."""
-
-
-class TodoUpdate(BaseModel):
-  """Model for updating existing Todo items with optional fields."""
-
-  title: str | None = None
-  completed: bool | None = None
-
-
-# Output models for API responses
-class TodoResponse(BaseModel):
-  """Complete Todo model with all fields including auto-generated ones."""
-
-  id: int
-  title: str
-  completed: bool
-  created_at: datetime
-
-
-# API Response models
-class DeleteResponse(BaseModel):
-  """Response model for delete operations."""
-
-  message: str
-
-
-class TodoListResponse(BaseModel):
-  """Response model for listing Todo items."""
-
-  todos: list[TodoResponse]
-  count: int
-
-
+# General API Response models (shared across modules)
 class HealthResponse(BaseModel):
   """Response model for health check endpoint."""
 
